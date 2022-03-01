@@ -8,10 +8,14 @@
 import SwiftUI
 
 @main
-struct API_PracticeApp: App {
+struct APIPracticeApp: App {
+    
+    let network = Network()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(network)
         }
     }
 }

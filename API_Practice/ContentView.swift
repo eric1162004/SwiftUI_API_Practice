@@ -8,9 +8,34 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var network: Network
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        VStack {
+            List(network.items){ item in
+                HStack{
+                    if let url = URL(string: item.thumbnailUrl){
+                        AsyncImage(
+                            url: url,
+                            content: { image in
+                                image.resizable()
+                                     .aspectRatio(contentMode: .fit)
+                                     .frame(maxWidth: 100, maxHeight: 100)
+                            },
+                            placeholder: {
+                                ProgressView()
+                            }
+                        )
+                        Text(item.title)
+                            .padding()
+                    }
+                }
+            }
+        }
+        .onAppear {
+            network.fetchItems()
+        }
     }
 }
 
